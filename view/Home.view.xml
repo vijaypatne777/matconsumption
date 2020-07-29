@@ -1,0 +1,35 @@
+<mvc:View controllerName="MM.mat_consumption.controller.Home" xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns:m="sap.m"
+	xmlns="sap.ui.table" xmlns:l="sap.ui.layout" xmlns:fb="sap.ui.comp.filterbar">
+		<m:App id="app">
+			<m:pages>
+				<m:Page id="page" title="{i18n>title}">
+					<l:VerticalLayout class="sapUiContentPadding" width="100%">
+						<fb:FilterBar reset="onReset" class="sapUiSmallMarginBottom" search="onSearch" showRestoreButton="true" showClearButton="true">
+							<fb:filterGroupItems>
+								<fb:FilterGroupItem id="idPlant" groupName="__$INTERNAL$" name="A" label="Plant" partOfCurrentVariant="true" visibleInFilterBar="true">
+									<fb:control>
+										<m:Input required="true" id="idFieldPlant" type="Text" placeholder="{i18n>Plant}"/>
+									</fb:control>
+								</fb:FilterGroupItem>
+								<fb:FilterGroupItem id="idDate" groupName="__$INTERNAL$" name="B" label="Run Date" partOfCurrentVariant="true" visibleInFilterBar="true">
+									<fb:control>
+										<m:Label text="Run Date" labelFor="DP1"/>
+										<m:DatePicker valueFormat="yyyy-MM-dd" displayFormat="long" id="idDatePicker" placeholder="Enter Run Date ..." change="handleChange"
+											class="sapUiSmallMarginBottom"/>
+									</fb:control>
+								</fb:FilterGroupItem>
+							</fb:filterGroupItems>
+						</fb:FilterBar>
+					</l:VerticalLayout>
+					<Table id="idTable">
+						<extension>
+							<m:OverflowToolbar>
+								<m:Title id="title" text="Material Stock and Consumption Details"/>
+								<m:Button icon="sap-icon://download" press="onDataExport"/>
+							</m:OverflowToolbar>
+						</extension>
+					</Table>
+				</m:Page>
+			</m:pages>
+		</m:App>
+</mvc:View>

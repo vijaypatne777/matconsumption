@@ -1,0 +1,1 @@
+function initModel(){var a="/OPENSAP/sap/opu/odata/sap/YY1_GOODS_MVMT_CDS/";var e=new sap.ui.model.odata.ODataModel(a,true);sap.ui.getCore().setModel(e)}
