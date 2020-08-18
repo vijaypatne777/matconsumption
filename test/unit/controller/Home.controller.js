@@ -1,0 +1,1 @@
+sap.ui.define(["MM/mat_consumption/controller/Home.controller"],function(o){"use strict";QUnit.module("Home Controller");QUnit.test("I should test the Home controller",function(t){var n=new o;n.onInit();t.ok(n)})});
