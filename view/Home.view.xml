@@ -1,0 +1,296 @@
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m" xmlns="sap.ui.table" xmlns:l="sap.ui.layout" xmlns:fb="sap.ui.comp.filterbar"
+	controllerName="MM.mat_consumption.controller.Home" displayBlock="true" xmlns:table="sap.ui.table">
+	<m:Shell id="shell">
+		<m:App id="app">
+			<m:pages>
+				<m:Page id="page" title="{i18n>title}">
+					<!--<content>-->
+					<l:VerticalLayout class="sapUiContentPadding" width="100%">
+						<fb:FilterBar reset="onReset" class="sapUiSmallMarginBottom" search="onSearch" showRestoreButton="true" showClearButton="true">
+							<fb:filterGroupItems>
+								<fb:FilterGroupItem id="idPlant" groupName="__$INTERNAL$" name="A" label="Plant" partOfCurrentVariant="true" visibleInFilterBar="true">
+									<fb:control>
+										<m:Input required="true" id="idFieldPlant" type="Text" placeholder="{i18n>Plant}" valueStateText="Plant must not be empty"/>
+									</fb:control>
+								</fb:FilterGroupItem>
+								<fb:FilterGroupItem id="idDate" groupName="__$INTERNAL$" name="B" label="Run Date" partOfCurrentVariant="true" visibleInFilterBar="true">
+									<fb:control>
+										<m:Label text="Run Date" labelFor="DP1"/>
+										<m:DatePicker valueFormat="MM-dd-yyyy" displayFormat="long" id="idDatePicker" placeholder="MM/DD/YYYY" change="handleChange"
+											class="sapUiSmallMarginBottom" required="true" valueStateText="End Date must not be empty"/>
+									</fb:control>
+								</fb:FilterGroupItem>
+							</fb:filterGroupItems>
+						</fb:FilterBar>
+					</l:VerticalLayout>
+					<!--<Table id="idTable">-->
+					<!--	<extension>-->
+					<!--		<m:OverflowToolbar>-->
+					<!--			<m:Title id="title" text="Material Stock and Consumption Details"/>-->
+					<!--			<m:Button icon="sap-icon://download-from-cloud" press="onDataExport"/>-->
+					<!--		</m:OverflowToolbar>-->
+					<!--	</extension>-->
+					<!--</Table>-->
+					<!--<m:Table id="idTable" items="{/}" alternateRowColors="false" width="100%">-->
+					<!--<m:headerToolbar>-->
+					<!--	<OverflowToolbar>-->
+					<!--		<content>-->
+					<!--			<Button text="Messages" class="sapUiLargeMarginEnd sapUiLargeMarginTop" press="handleDialogPress" icon="sap-icon://message-information"/>-->
+					<!--		</content>-->
+					<!--	</OverflowToolbar>-->
+					<!--</m:headerToolbar>-->
+					<!--<infoToolbar>-->
+					<!--	<OverflowToolbar>-->
+					<!--		<Label text="{i18n>ITLBL}" class="sapUiSmallMarginBottom"/>-->
+					<!--	</OverflowToolbar>-->
+					<!--</infoToolbar>-->
+					<!--	<items >-->
+					<!--		<ColumnListItem vAlign="Middle">-->
+					<!--			<cells>-->
+					<!--				<Text text="{Material}"></Text>-->
+					<!--				<Text text="{ProductDescription}"></Text>-->
+					<!--				<Text text="{Plant}"></Text>-->
+					<!--				<Text text="{CrossPlantStatus}"></Text>-->
+					<!--				<Text text="{On_Hand_Qty}"></Text>-->
+					<!--				<Text text="{Tot_Std_Cost}"></Text>-->
+					<!--				<Text text="{Std_Price}"></Text>-->
+					<!--				<Text text="{GoodsShipped}"></Text>-->
+					<!--				<Text text="{Consumption}"></Text>-->
+					<!--				<Text text="{SLoc_S099_Qty}"></Text>-->
+					<!--				<Text text="{MonthUsage24}"></Text>-->
+					<!--				<Text text="{ExcessQOH}"></Text>-->
+					<!--				<Text text="{NEW_OBS_EXC_or_GOOD}"></Text>-->
+					<!--				<Text text="{Excess_OH_FIFO}"></Text>-->
+					<!--				<Text text="{Obsolete_OH_FIFO}"></Text>-->
+					<!--				<Text text="{E_O_OH_FIFO}"></Text>-->
+					<!--				<Text text="{Months_Usage_Life_in_months}"></Text>-->
+					<!--				<Text text="{CreationDate}"></Text>-->
+					<!--			</cells>-->
+					<!--		</ColumnListItem>-->
+					<!--	</items>-->
+					<!--	<columns>-->
+					<!--		<m:Column>-->
+					<!--			<Text text="Material"></Text>-->
+					<!--		</m:Column>-->
+					<!--		<m:Column>-->
+					<!--			<Text text="ProductDescription"></Text>-->
+					<!--		</m:Column>-->
+					<!--		<m:Column>-->
+					<!--			<Text text="Plant"></Text>-->
+					<!--		</m:Column>-->
+					<!--		<m:Column>-->
+					<!--			<Text text="CrossPlantStatus"></Text>-->
+					<!--		</m:Column>-->
+					<!--		<m:Column>-->
+					<!--			<Text text="On_Hand_Qty"></Text>-->
+					<!--		</m:Column>-->
+					<!--		<m:Column>-->
+					<!--			<Text text="Tot_Std_Cost"></Text>-->
+					<!--		</m:Column>-->
+					<!--		<m:Column>-->
+					<!--			<Text text="Std_Price"></Text>-->
+					<!--		</m:Column>-->
+					<!--		<m:Column>-->
+					<!--			<Text text="GoodsShipped"></Text>-->
+					<!--		</m:Column>-->
+					<!--		<m:Column>-->
+					<!--			<Text text="Consumption"></Text>-->
+					<!--		</m:Column>-->
+					<!--		<m:Column>-->
+					<!--			<Text text="SLoc_S099_Qty"></Text>-->
+					<!--		</m:Column>-->
+					<!--		<m:Column>-->
+					<!--			<Text text="MonthUsage24" width="3em"></Text>-->
+					<!--		</m:Column>-->
+					<!--		<m:Column>-->
+					<!--			<Text text="ExcessQOH" width="3em"></Text>-->
+					<!--		</m:Column>-->
+					<!--		<m:Column>-->
+					<!--			<Text text="NEW_OBS_EXC_or_GOOD"></Text>-->
+					<!--		</m:Column>-->
+					<!--		<m:Column>-->
+					<!--			<Text text="Excess_OH_FIFO"></Text>-->
+					<!--		</m:Column>-->
+					<!--		<m:Column hAlign="End" width="4em">-->
+					<!--			<Text text="Obsolete_OH_FIFO"></Text>-->
+					<!--		</m:Column>-->
+					<!--		<m:Column>-->
+					<!--			<Text text="E_O_OH_FIFO"></Text>-->
+					<!--		</m:Column>-->
+					<!--		<m:Column>-->
+					<!--			<Text text="Months_Usage_Life_in_months"></Text>-->
+					<!--		</m:Column>-->
+					<!--		<m:Column>-->
+					<!--			<Text text="CreationDate"></Text>-->
+					<!--		</m:Column>-->
+					<!--	</columns>-->
+					<!--</m:Table>-->
+					<!--S.BotList-->
+					<table:Table id="idTable3" selectionMode="None" visibleRowCount="10" ariaLabelledBy="title" enableGrouping="true" rows="{/items}"
+						enableBusyIndicator="true" alternateRowColors="true">
+						<extension>
+							<m:OverflowToolbar>
+								<m:Title id="title" text="Material Stock and Consumption Details"/>
+								<m:Button icon="sap-icon://download-from-cloud" press="onDataExport"/>
+							</m:OverflowToolbar>
+						</extension>
+						<table:columns>
+							<!--<table:Column sortProperty="Material" filterProperty="Material" autoResizable="true" width="4rem">-->
+							<!--	<m:Label text="Material"/>-->
+							<!--	<table:template>-->
+							<!--<m:Text text="{botTabModel3>Material}" wrapping="false"/>-->
+							<!--		<m:Text text="{Material}" wrapping="false"/>-->
+							<!--	</table:template>-->
+							<!--</table:Column>-->
+							<table:Column sortProperty="Material" filterProperty="Material" autoResizable="true" width="8rem">
+								<m:Label text="Material"/>
+								<table:template>
+									<!--<m:Text text="{botTabModel3>Material}" wrapping="false"/>-->
+									<m:Text text="{Material}" wrapping="false"/>
+								</table:template>
+							</table:Column>
+							<table:Column sortProperty="ProductDescription" filterProperty="ProductDescription" autoResizable="true" width="10rem">
+								<m:Label text="ProductDescription"/>
+								<table:template>
+									<!--<m:Text text="{botTabModel3>Material}" wrapping="false"/>-->
+									<m:Text text="{ProductDescription}" wrapping="false"/>
+								</table:template>
+							</table:Column>
+							<table:Column sortProperty="Plant" filterProperty="Plant" autoResizable="true" width="4rem">
+								<m:Label text="Plant"/>
+								<table:template>
+									<!--<m:Text text="{botTabModel3>Material}" wrapping="false"/>-->
+									<m:Text text="{Plant}" wrapping="false"/>
+								</table:template>
+							</table:Column>
+							<table:Column sortProperty="CrossPlantStatus" filterProperty="CrossPlantStatus" autoResizable="true" width="4rem">
+								<m:Label text="CrossPlantStatus"/>
+								<table:template>
+									<!--<m:Text text="{botTabModel3>Material}" wrapping="false"/>-->
+									<m:Text text="{CrossPlantStatus}" wrapping="false"/>
+								</table:template>
+							</table:Column>
+							<table:Column sortProperty="On_Hand_Qty" filterProperty="On_Hand_Qty" autoResizable="true" width="6rem">
+								<m:Label text="On_Hand_Qty"/>
+								<table:template>
+									<!--<m:Text text="{botTabModel3>Material}" wrapping="false"/>-->
+									<m:Text text="{On_Hand_Qty}" wrapping="false"/>
+								</table:template>
+							</table:Column>
+							<table:Column sortProperty="Std_Price" filterProperty="Std_Price" autoResizable="true" width="8rem">
+								<m:Label text="Std_Price"/>
+								<table:template>
+									<!--<m:Text text="{botTabModel3>Material}" wrapping="false"/>-->
+									<m:Text text="{Std_Price}" wrapping="false"/>
+								</table:template>
+							</table:Column>
+							<table:Column sortProperty="GoodsShipped" filterProperty="GoodsShipped" autoResizable="true" width="8rem">
+								<m:Label text="GoodsShipped"/>
+								<table:template>
+									<!--<m:Text text="{botTabModel3>Material}" wrapping="false"/>-->
+									<m:Text text="{GoodsShipped}" wrapping="false"/>
+								</table:template>
+							</table:Column>
+							<table:Column sortProperty="Consumption" filterProperty="Consumption" autoResizable="true" width="8rem">
+								<m:Label text="Consumption"/>
+								<table:template>
+									<!--<m:Text text="{botTabModel3>Material}" wrapping="false"/>-->
+									<m:Text text="{Consumption}" wrapping="false"/>
+								</table:template>
+							</table:Column>
+							<table:Column sortProperty="SLoc_S099_Qty" filterProperty="SLoc_S099_Qty" autoResizable="true" width="8rem">
+								<m:Label text="SLoc_S099_Qty"/>
+								<table:template>
+									<!--<m:Text text="{botTabModel3>Material}" wrapping="false"/>-->
+									<m:Text text="{SLoc_S099_Qty}" wrapping="false"/>
+								</table:template>
+							</table:Column>
+							<table:Column sortProperty="MonthUsage24" filterProperty="MonthUsage24" autoResizable="true" width="8rem">
+								<m:Label text="MonthUsage24"/>
+								<table:template>
+									<!--<m:Text text="{botTabModel3>Material}" wrapping="false"/>-->
+									<m:Text text="{MonthUsage24}" wrapping="false"/>
+								</table:template>
+							</table:Column>
+							<table:Column sortProperty="ExcessQOH" filterProperty="ExcessQOH" autoResizable="true" width="8rem">
+								<m:Label text="ExcessQOH"/>
+								<table:template>
+									<!--<m:Text text="{botTabModel3>Material}" wrapping="false"/>-->
+									<m:Text text="{ExcessQOH}" wrapping="false"/>
+								</table:template>
+							</table:Column>
+							<table:Column sortProperty="NEW_OBS_EXC_or_GOOD" filterProperty="NEW_OBS_EXC_or_GOOD" autoResizable="true" width="5rem">
+								<m:Label text="NEW_OBS_EXC_or_GOOD"/>
+								<table:template>
+									<!--<m:Text text="{botTabModel3>Material}" wrapping="false"/>-->
+									<m:Text text="{NEW_OBS_EXC_or_GOOD}" wrapping="false"/>
+								</table:template>
+							</table:Column>
+							<table:Column sortProperty="Excess_OH_FIFO" filterProperty="Excess_OH_FIFO" autoResizable="true" width="8rem">
+								<m:Label text="Excess_OH_FIFO"/>
+								<table:template>
+									<!--<m:Text text="{botTabModel3>Material}" wrapping="false"/>-->
+									<m:Text text="{Excess_OH_FIFO}" wrapping="false"/>
+								</table:template>
+							</table:Column>
+							<table:Column sortProperty="Obsolete_OH_FIFO" filterProperty="Obsolete_OH_FIFO" autoResizable="true" width="8rem">
+								<m:Label text="Obsolete_OH_FIFO"/>
+								<table:template>
+									<!--<m:Text text="{botTabModel3>Material}" wrapping="false"/>-->
+									<m:Text text="{Obsolete_OH_FIFO}" wrapping="false"/>
+								</table:template>
+							</table:Column>
+							<table:Column sortProperty="E_O_OH_FIFO" filterProperty="E_O_OH_FIFO" autoResizable="true" width="6rem">
+								<m:Label text="E_O_OH_FIFO"/>
+								<table:template>
+									<!--<m:Text text="{botTabModel3>Material}" wrapping="false"/>-->
+									<m:Text text="{E_O_OH_FIFO}" wrapping="false"/>
+								</table:template>
+							</table:Column>
+							<table:Column sortProperty="Months_Usage_Life_in_months" filterProperty="Months_Usage_Life_in_months" autoResizable="true" width="4rem">
+								<m:Label text="Months_Usage_Life_in_months"/>
+								<table:template>
+									<!--<m:Text text="{botTabModel3>Material}" wrapping="false"/>-->
+									<m:Text text="{Months_Usage_Life_in_months}" wrapping="false"/>
+								</table:template>
+							</table:Column>
+							<table:Column sortProperty="CreationDate" filterProperty="CreationDate" autoResizable="true" width="10rem">
+								<m:Label text="CreationDate"/>
+								<table:template>
+									<!--<m:Text text="{botTabModel3>Material}" wrapping="false"/>-->
+									<m:Text text="{CreationDate}" wrapping="false"/>
+								</table:template>
+							</table:Column>
+						</table:columns>
+					</table:Table>
+					<!--<m:Table id="idTable3" width="95%" items="{botTabModel3>/items}" class="sapUiSizeCompact sapUiResponsiveMargin" backgroundDesign="Solid"-->
+					<!--	growing="true" growingThreshold="10">-->
+					<!--	<m:columns>-->
+					<!--		<m:Column id="Material" demandPopin="true" hAlign="Left" width="10%" sortIndicator="None">-->
+					<!--			<m:header>-->
+					<!--				<m:Label design="Bold" text="Material" />-->
+					<!--			</m:header>-->
+					<!--		</m:Column>-->
+					<!--		<m:Column id="Plant" demandPopin="true" hAlign="Left" width="10%" sortIndicator="Ascending">-->
+					<!--			<m:header>-->
+					<!--				<m:Label design="Bold" text="Plant" />-->
+					<!--			</m:header>-->
+					<!--		</m:Column>-->
+					<!--	</m:columns>-->
+					<!--	<m:items>-->
+					<!--		<m:ColumnListItem id="favTableItemTemplate3" type="Active">-->
+					<!--			<m:cells>-->
+					<!--				<m:Link id="MaterialC" text="{botTabModel3>Material}" press="handleBOTLink"/>-->
+					<!--			</m:cells>-->
+					<!--				<m:cells>-->
+					<!--				<m:Link id="PlantC" text="{botTabModel3>Plant}" press="handleBOTLink"/>-->
+					<!--			</m:cells>-->
+					<!--		</m:ColumnListItem>-->
+					<!--	</m:items>-->
+					<!--</m:Table>-->
+					<!--</content>-->
+				</m:Page>
+			</m:pages>
+		</m:App>
+	</m:Shell>
+</mvc:View>
