@@ -1,0 +1,142 @@
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m" xmlns="sap.ui.table" xmlns:l="sap.ui.layout" xmlns:fb="sap.ui.comp.filterbar"
+	controllerName="MM.mat_consumption.controller.Home" displayBlock="true" xmlns:table="sap.ui.table">
+	<m:Shell id="shell">
+		<m:App id="app">
+			<m:pages>
+				<m:Page id="page" title="{i18n>title}">
+					<l:VerticalLayout class="sapUiContentPadding" width="100%">
+						<fb:FilterBar reset="onReset" class="sapUiSmallMarginBottom" search="onSearch" showRestoreButton="true" showClearButton="true">
+							<fb:filterGroupItems>
+								<fb:FilterGroupItem id="idPlant" groupName="__$INTERNAL$" name="A" label="Plant" partOfCurrentVariant="true" visibleInFilterBar="true">
+									<fb:control>
+										<m:Input required="true" id="idFieldPlant" type="Text" placeholder="{i18n>Plant}" valueStateText="Plant must not be empty"/>
+									</fb:control>
+								</fb:FilterGroupItem>
+								<fb:FilterGroupItem id="idDate" groupName="__$INTERNAL$" name="B" label="Run Date" partOfCurrentVariant="true" visibleInFilterBar="true">
+									<fb:control>
+										<m:Label text="Run Date" labelFor="DP1"/>
+										<m:DatePicker valueFormat="MM-dd-yyyy" displayFormat="long" id="idDatePicker" placeholder="MM/DD/YYYY" change="handleChange"
+											class="sapUiSmallMarginBottom" required="true" valueStateText="End Date must not be empty"/>
+									</fb:control>
+								</fb:FilterGroupItem>
+							</fb:filterGroupItems>
+						</fb:FilterBar>
+					</l:VerticalLayout>
+					<table:Table id="idTable3" selectionMode="None" visibleRowCount="10" ariaLabelledBy="title" enableGrouping="true" rows="{/items}"
+						enableBusyIndicator="true" alternateRowColors="true">
+						<extension>
+							<m:OverflowToolbar>
+								<m:Title id="title" text="Material Stock and Consumption Details"/>
+								<m:Button icon="sap-icon://download-from-cloud" press="onDataExport"/>
+							</m:OverflowToolbar>
+						</extension>
+						<table:columns>
+							<table:Column sortProperty="Material" filterProperty="Material" autoResizable="true" width="8rem">
+								<m:Label text="Material"/>
+								<table:template>
+									<m:Text text="{Material}" wrapping="false"/>
+								</table:template>
+							</table:Column>
+							<table:Column sortProperty="ProductDescription" filterProperty="ProductDescription" autoResizable="true" width="10rem">
+								<m:Label text="Product Description"/>
+								<table:template>
+									<m:Text text="{ProductDescription}" wrapping="false"/>
+								</table:template>
+							</table:Column>
+							<table:Column sortProperty="Plant" filterProperty="Plant" autoResizable="true" width="4rem">
+								<m:Label text="Plant"/>
+								<table:template>
+									<m:Text text="{Plant}" wrapping="false"/>
+								</table:template>
+							</table:Column>
+							<table:Column sortProperty="CrossPlantStatus" filterProperty="CrossPlantStatus" autoResizable="true" width="4rem">
+								<m:Label text="Cross Plant Status"/>
+								<table:template>
+									<m:Text text="{CrossPlantStatus}" wrapping="false"/>
+								</table:template>
+							</table:Column>
+							<table:Column sortProperty="On_Hand_Qty" filterProperty="On_Hand_Qty" autoResizable="true" width="6rem">
+								<m:Label text="On Hand Qty"/>
+								<table:template>
+									<m:Text text="{On_Hand_Qty}" wrapping="false"/>
+								</table:template>
+							</table:Column>
+							<table:Column sortProperty="Std_Price" filterProperty="Std_Price" autoResizable="true" width="8rem">
+								<m:Label text="Std. Price"/>
+								<table:template>
+									<m:Text text="{Std_Price}" wrapping="false"/>
+								</table:template>
+							</table:Column>
+							<table:Column sortProperty="GoodsShipped" filterProperty="GoodsShipped" autoResizable="true" width="8rem">
+								<m:Label text="Goods Shipped"/>
+								<table:template>
+									<m:Text text="{GoodsShipped}" wrapping="false"/>
+								</table:template>
+							</table:Column>
+							<table:Column sortProperty="Consumption" filterProperty="Consumption" autoResizable="true" width="8rem">
+								<m:Label text="Consumption"/>
+								<table:template>
+									<m:Text text="{Consumption}" wrapping="false"/>
+								</table:template>
+							</table:Column>
+							<table:Column sortProperty="SLoc_S099_Qty" filterProperty="SLoc_S099_Qty" autoResizable="true" width="8rem">
+								<m:Label text="SLoc. S099 Qty"/>
+								<table:template>
+									<m:Text text="{SLoc_S099_Qty}" wrapping="false"/>
+								</table:template>
+							</table:Column>
+							<table:Column sortProperty="MonthUsage24" filterProperty="MonthUsage24" autoResizable="true" width="8rem">
+								<m:Label text="24 Month Usage"/>
+								<table:template>
+									<m:Text text="{MonthUsage24}" wrapping="false"/>
+								</table:template>
+							</table:Column>
+							<table:Column sortProperty="ExcessQOH" filterProperty="ExcessQOH" autoResizable="true" width="8rem">
+								<m:Label text="Excess QOH"/>
+								<table:template>
+									<m:Text text="{ExcessQOH}" wrapping="false"/>
+								</table:template>
+							</table:Column>
+							<table:Column sortProperty="NEW_OBS_EXC_or_GOOD" filterProperty="NEW_OBS_EXC_or_GOOD" autoResizable="true" width="5rem">
+								<m:Label text="NEW,OBS,EXC or GOOD"/>
+								<table:template>
+									<m:Text text="{NEW_OBS_EXC_or_GOOD}" wrapping="false"/>
+								</table:template>
+							</table:Column>
+							<table:Column sortProperty="Excess_OH_FIFO" filterProperty="Excess_OH_FIFO" autoResizable="true" width="8rem">
+								<m:Label text="Excess OH FIFO"/>
+								<table:template>
+									<m:Text text="{Excess_OH_FIFO}" wrapping="false"/>
+								</table:template>
+							</table:Column>
+							<table:Column sortProperty="Obsolete_OH_FIFO" filterProperty="Obsolete_OH_FIFO" autoResizable="true" width="8rem">
+								<m:Label text="Obsolete OH FIFO"/>
+								<table:template>
+									<m:Text text="{Obsolete_OH_FIFO}" wrapping="false"/>
+								</table:template>
+							</table:Column>
+							<table:Column sortProperty="E_O_OH_FIFO" filterProperty="E_O_OH_FIFO" autoResizable="true" width="6rem">
+								<m:Label text="E O OH FIFO"/>
+								<table:template>
+									<m:Text text="{E_O_OH_FIFO}" wrapping="false"/>
+								</table:template>
+							</table:Column>
+							<table:Column sortProperty="Months_Usage_Life_in_months" filterProperty="Months_Usage_Life_in_months" autoResizable="true" width="4rem">
+								<m:Label text="Months Usage Life in months"/>
+								<table:template>
+									<m:Text text="{Months_Usage_Life_in_months}" wrapping="false"/>
+								</table:template>
+							</table:Column>
+							<table:Column sortProperty="CreationDate" filterProperty="CreationDate" autoResizable="true" width="10rem">
+								<m:Label text="Creation Date"/>
+								<table:template>
+									<m:Text text="{CreationDate}" wrapping="false"/>
+								</table:template>
+							</table:Column>
+						</table:columns>
+					</table:Table>
+				</m:Page>
+			</m:pages>
+		</m:App>
+	</m:Shell>
+</mvc:View>
