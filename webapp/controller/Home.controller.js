@@ -2,8 +2,8 @@ sap.ui.define([
 	"sap/m/MessageToast", "sap/ui/core/mvc/Controller", "sap/ui/model/Filter", "sap/ui/model/FilterOperator",
 	"sap/ui/model/FilterType", "sap/ui/model/Sorter", "sap/ui/core/util/Export", "sap/ui/core/util/ExportTypeCSV", "sap/m/MessageBox",
 	"sap/ui/core/util/MockServer", "sap/ui/export/Spreadsheet", "sap/ui/model/odata/v2/ODataModel", "sap/ui/model/json/JSONModel",
-	"sap/ui/core/util/Export", "sap/ui/core/util/ExportTypeCSV"
-], function (e, t, a, o, n, s, r, i, l, d, Spreadsheet, _, c, p, m) {
+	"sap/ui/core/util/Export", "sap/ui/core/util/ExportTypeCSV", "sap/m/MessageToast"
+], function (e, t, a, o, n, s, r, i, l, d, Spreadsheet, _, c, p, m, MessageToast) {
 	"use strict";
 	var S = {
 		BotList: []
@@ -579,23 +579,25 @@ sap.ui.define([
 							a.Months_Usage_Life_in_months = "0";
 						}
 
-						if (a.CrossPlantStatus === "05" || a.MonthUsage24 === "0") {
-							a.NEW_OBS_EXC_or_GOOD = "OBS";
-						}
+						// if (a.CrossPlantStatus === "05" || a.MonthUsage24 === "0") {
+						// 	a.NEW_OBS_EXC_or_GOOD = "OBS";
+						// }                                                            // ediited by sumanta
 						// if (a.ExcessQOH === "0") {
 						// 	a.NEW_OBS_EXC_or_GOOD = "GOOD";
 						// }
 						if (a.On_Hand_Qty <= a.MonthUsage24) {
 							a.NEW_OBS_EXC_or_GOOD = "GOOD";
 						}
-						if ((a.CrossPlantStatus === "02" || a.CrossPlantStatus === "03" || a.CrossPlantStatus === "04") && 
-							 a.On_Hand_Qty > a.MonthUsage24) {
+						if ((a.CrossPlantStatus === "02" || a.CrossPlantStatus === "03" || a.CrossPlantStatus === "04") &&
+							a.On_Hand_Qty > a.MonthUsage24) {
 							a.NEW_OBS_EXC_or_GOOD = "EXC";
 						}
 						if (t < "12") {
 							a.NEW_OBS_EXC_or_GOOD = "NEW";
 						}
-
+						if (a.CrossPlantStatus === "05" || a.MonthUsage24 === "0") {
+							a.NEW_OBS_EXC_or_GOOD = "OBS";
+						} // edited by sumanta
 						if (a.NEW_OBS_EXC_or_GOOD === "EXC") {
 							a.Excess_OH_FIFO = a.ExcessQOH * a.Std_Price;
 							a.Excess_OH_FIFO = parseFloat(a.Excess_OH_FIFO).toFixed(2);
@@ -743,114 +745,219 @@ sap.ui.define([
 				}, function () {});
 			}
 		},
-		onDataExport: function (oConData) {
+		// onDataExport: function (oConData) {
+		// 	var dateModel = new sap.ui.model.json.JSONModel();
+		// 	dateModel.setData(S.BotList);
+		// 	var a = new p({
+		// 		exportType: new sap.ui.core.util.ExportTypeCSV({
+		// 			separatorChar: ",",
+		// 			charset: "utf-8"
+		// 		}),
+		// 		models: dateModel,
+		// 		rows: {
+		// 			path: "/"
+		// 		},
+		// 		columns: [{
+		// 			name: "Material",
+		// 			template: {
+
+		// 				content: "{Material}" //edited by sumanta
+		// 			}
+		// 		}, {
+		// 			name: "Product Description",
+		// 			template: {
+		// 				content: "{ProductDescription}"
+		// 			}
+		// 		}, {
+		// 			name: "Plant",
+		// 			template: {
+		// 				content: "{Plant}"
+		// 			}
+		// 		}, {
+		// 			name: "Cross Plant Status",
+		// 			template: {
+		// 				content: "{CrossPlantStatus}" //edited by sumanta
+		// 			}
+		// 		}, {
+		// 			name: "On Hand Qty",
+		// 			template: {
+		// 				content: "{On_Hand_Qty}"
+		// 			}
+		// 		}, {
+		// 			name: "Total Std Cost",
+		// 			template: {
+		// 				content: "{Tot_Std_Cost}"
+		// 			}
+		// 		}, {
+		// 			name: "Std Price",
+		// 			template: {
+		// 				content: "{Std_Price}"
+		// 			}
+		// 		}, {
+		// 			name: "Goods Shipped",
+		// 			template: {
+		// 				content: "{GoodsShipped}"
+		// 			}
+		// 		}, {
+		// 			name: "Consumption",
+		// 			template: {
+		// 				content: "{Consumption}"
+		// 			}
+		// 		}, {
+		// 			name: "S.Loc S099 Qty",
+		// 			template: {
+		// 				content: "{SLoc_S099_Qty}"
+		// 			}
+		// 		}, {
+		// 			name: "24 Month Usage",
+		// 			template: {
+		// 				content: "{MonthUsage24}"
+		// 			}
+		// 		}, {
+		// 			name: "Quantity to Reserve",
+		// 			template: {
+		// 				content: "{ExcessQOH}"
+		// 			}
+		// 		}, {
+		// 			name: "NEW, OBS, EXC or GOOD",
+		// 			template: {
+		// 				content: "{NEW_OBS_EXC_or_GOOD}"
+		// 			}
+		// 		}, {
+		// 			name: "Excess OH FIFO",
+		// 			template: {
+		// 				content: "{Excess_OH_FIFO}"
+		// 			}
+		// 		}, {
+		// 			name: "Obsolete OH FIFO",
+		// 			template: {
+		// 				content: "{Obsolete_OH_FIFO}"
+		// 			}
+		// 		}, {
+		// 			name: "E_O_OH_FIFO",
+		// 			template: {
+		// 				content: "{E_O_OH_FIFO}"
+		// 			}
+		// 		}, {
+		// 			name: "Months Usage Life in months",
+		// 			template: {
+		// 				content: "{Months_Usage_Life_in_months}"
+		// 			}
+		// 		}, {
+		// 			name: "Creation Date",
+		// 			template: {
+		// 				content: "{CreationDate}"
+		// 			}
+		// 		}]
+		// 	});
+		// 	a.saveFile().always(function () {
+		// 		this.destroy();
+		// 	});
+		// }  //edited by sumanta
+		onDataExport: function () {
 			var dateModel = new sap.ui.model.json.JSONModel();
 			dateModel.setData(S.BotList);
-			var a = new p({
-				exportType: new sap.ui.core.util.ExportTypeCSV({
-					separatorChar: ",",
-					charset: "utf-8"
-				}),
-				models: dateModel,
-				rows: {
-					path: "/"
-				},
-				columns: [{
-					name: "Material",
-					template: {
+			var aCols, aProducts, oSettings, oSheet;
 
-						content: "'{Material}"
-					}
-				}, {
-					name: "Product Description",
-					template: {
-						content: "{ProductDescription}"
-					}
-				}, {
-					name: "Plant",
-					template: {
-						content: "{Plant}"
-					}
-				}, {
-					name: "Cross Plant Status",
-					template: {
-						content: "'{CrossPlantStatus}"
-					}
-				}, {
-					name: "On Hand Qty",
-					template: {
-						content: "{On_Hand_Qty}"
-					}
-				}, {
-					name: "Total Std Cost",
-					template: {
-						content: "{Tot_Std_Cost}"
-					}
-				}, {
-					name: "Std Price",
-					template: {
-						content: "{Std_Price}"
-					}
-				}, {
-					name: "Goods Shipped",
-					template: {
-						content: "{GoodsShipped}"
-					}
-				}, {
-					name: "Consumption",
-					template: {
-						content: "{Consumption}"
-					}
-				}, {
-					name: "S.Loc S099 Qty",
-					template: {
-						content: "{SLoc_S099_Qty}"
-					}
-				}, {
-					name: "24 Month Usage",
-					template: {
-						content: "{MonthUsage24}"
-					}
-				}, {
-					name: "Quantity to Reserve",
-					template: {
-						content: "{ExcessQOH}"
-					}
-				}, {
-					name: "NEW, OBS, EXC or GOOD",
-					template: {
-						content: "{NEW_OBS_EXC_or_GOOD}"
-					}
-				}, {
-					name: "Excess OH FIFO",
-					template: {
-						content: "{Excess_OH_FIFO}"
-					}
-				}, {
-					name: "Obsolete OH FIFO",
-					template: {
-						content: "{Obsolete_OH_FIFO}"
-					}
-				}, {
-					name: "E_O_OH_FIFO",
-					template: {
-						content: "{E_O_OH_FIFO}"
-					}
-				}, {
-					name: "Months Usage Life in months",
-					template: {
-						content: "{Months_Usage_Life_in_months}"
-					}
-				}, {
-					name: "Creation Date",
-					template: {
-						content: "{CreationDate}"
-					}
-				}]
-			});
-			a.saveFile().always(function () {
-				this.destroy();
-			});
-		}
+			aCols = this.createColumnConfig();
+			aProducts = dateModel.getProperty("/");
+			var z = new Date();
+			oSettings = {
+				workbook: {
+					columns: aCols
+
+				},
+				dataSource: aProducts,
+				showProgress: false,
+				fileName: "Excess and Obsolete Inventory Analysis_" + z.getUTCDate() + "-" + (z.getUTCMonth() + 1) + "-" + z.getUTCFullYear()
+			};
+
+			oSheet = new Spreadsheet(oSettings);
+			oSheet.build()
+				.then(function () {
+					MessageToast.show("Excel export has finished");
+				})
+				.finally(function () {
+					oSheet.destroy();
+				});
+		},   // added by sumanta
+		createColumnConfig: function () {
+			return [{
+				label: "Material",
+				property: "Material",
+				type: sap.ui.export.EdmType.String
+			}, {
+				label: "Product Description",
+				property: "ProductDescription"
+			}, {
+				label: "Plant",
+				property: "Plant"
+			}, {
+				label: "Cross Plant Status",
+				property: "CrossPlantStatus",
+				type: sap.ui.export.EdmType.String
+
+			}, {
+				label: "On Hand Qty",
+				property: "On_Hand_Qty",
+				type: sap.ui.export.EdmType.Number
+			}, {
+				label: "Total Std Cost",
+				property: "Tot_Std_Cost",
+				type: sap.ui.export.EdmType.Number
+			}, {
+				label: "Std Price",
+				property: "Std_Price",
+				type: sap.ui.export.EdmType.Number
+			}, {
+				label: "Goods Shipped",
+				property: "GoodsShipped",
+				type: sap.ui.export.EdmType.Number
+
+			}, {
+				label: "Consumption",
+				property: "Consumption",
+				type: sap.ui.export.EdmType.Number
+			}, {
+				label: "S.Loc S099 Qty",
+				property: "SLoc_S099_Qty",
+				type: sap.ui.export.EdmType.Number
+			}, {
+				label: "24 Month Usage",
+				property: "MonthUsage24",
+				type: sap.ui.export.EdmType.Number
+			}, {
+				label: "Quantity to Reserve",
+				property: "ExcessQOH",
+				type: sap.ui.export.EdmType.Number
+			}, {
+				label: "NEW, OBS, EXC or GOOD",
+				property: "NEW_OBS_EXC_or_GOOD"
+			}, {
+				label: "Excess OH FIFO",
+				property: "Excess_OH_FIFO",
+				type: sap.ui.export.EdmType.Number
+			}, {
+				label: "Obsolete OH FIFO",
+				property: "Obsolete_OH_FIFO",
+				type: sap.ui.export.EdmType.Number
+			}, {
+				label: "E_O_OH_FIFO",
+				property: "E_O_OH_FIFO",
+				type: sap.ui.export.EdmType.Number
+			}, {
+				label: "Months Usage Life in months",
+				property: "Months_Usage_Life_in_months",
+				type: sap.ui.export.EdmType.Number
+			}, {
+				label: "Creation Date",
+				property: "CreationDate"
+			}];
+		},  // added by sumanta
+			onLiveChange: function (oEvent) {
+			var oPlant = oEvent.getSource().getValue();
+			this.getView().byId("idFieldPlant").setValue(oPlant.toUpperCase());
+		}  // added by sumanta
+
 	});
 });

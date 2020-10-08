@@ -9,7 +9,7 @@
 							<fb:filterGroupItems>
 								<fb:FilterGroupItem id="idPlant" groupName="__$INTERNAL$" name="A" label="Plant" partOfCurrentVariant="true" visibleInFilterBar="true">
 									<fb:control>
-										<m:Input required="true" id="idFieldPlant" type="Text" placeholder="{i18n>Plant}" valueStateText="Plant must not be empty"/>
+										<m:Input required="true" id="idFieldPlant" type="Text" placeholder="{i18n>Plant}" liveChange="onLiveChange" valueStateText="Plant must not be empty"/>
 									</fb:control>
 								</fb:FilterGroupItem>
 								<fb:FilterGroupItem id="idDate" groupName="__$INTERNAL$" name="B" label="Run Date" partOfCurrentVariant="true" visibleInFilterBar="true">
