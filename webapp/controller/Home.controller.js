@@ -281,8 +281,9 @@ sap.ui.define([
 				var yyyy = yyyy - 2;
 				var fromDate = yyyy + "-" + mm + "-" + dd;
 				var fromDate = new Date(fromDate);
-
-				var M = new sap.ui.model.Filter("MatlDocLatestPostgDate", sap.ui.model.FilterOperator.LE, toDate.toISOString());
+				// var xyz = "datetime'" + toDate.toISOString().slice(0,-5) + "'";
+				var xyz = toDate.toISOString().slice(0, -5);      //added by Sumanta
+				var M = new sap.ui.model.Filter("MatlDocLatestPostgDate", sap.ui.model.FilterOperator.LE, xyz);
 				var O = new sap.ui.model.Filter({
 					filters: [M],
 					and: true
@@ -342,8 +343,9 @@ sap.ui.define([
 				var yyyy = yyyy - 2;
 				var fromDate = yyyy + "-" + mm + "-" + dd;
 				var fromDate = new Date(fromDate);
-
-				var M = new sap.ui.model.Filter("MatlDocLatestPostgDate", sap.ui.model.FilterOperator.LE, toDate.toISOString());
+				// var xyz = "datetime'" + toDate.toISOString().slice(0,-5) + "'";
+				var xyz = toDate.toISOString().slice(0, -5);
+				var M = new sap.ui.model.Filter("MatlDocLatestPostgDate", sap.ui.model.FilterOperator.LE, xyz);
 				var O = new sap.ui.model.Filter({
 					filters: [M],
 					and: true
@@ -393,7 +395,20 @@ sap.ui.define([
 			}
 		},
 		_buildFinalData: function (oConData) {
-
+			// ------------------------------------------------------------  //added by Sumanta
+			var that = this;
+			var e = oConData;
+			that.arr = [];
+			for (var i = 0; i < e.MatStock.length; i++) {
+				that.arr.push(e.MatStock[i].Material);
+			}
+			var arr1 = [];
+			for (i = 0; i < aQQH.items.length; i++) {
+				arr1.push(aQQH.items[i].Material);
+			}
+			that.arr2 = [];
+			that.arr2 = that.arr.filter(x => !arr1.includes(x));
+			// ----------------------------------------------------------------  //added by Sumanta
 			var t = 0;
 			var a = {};
 			var o = [];
@@ -416,7 +431,6 @@ sap.ui.define([
 								break;
 							}
 						}
-
 						var l = this.getView().byId("idDatePicker").getValue().toUpperCase();
 						var idDatePickerVal = this.getView().byId("idDatePicker").getValue().toUpperCase();
 						var yyyy = idDatePickerVal.slice(6, 10);
@@ -662,6 +676,18 @@ sap.ui.define([
 			var table3 = sap.ui.getCore().byId("container-mat_consumption---Home--idTable3");
 			table3.setModel(dateModel);
 			table3.setVisible(true);
+			// -----------------------------  //added by Sumanta
+			var farry = [];
+			for (i = 0; i < o.length; i++) {
+				farry.push(o[i].Material);
+			}
+
+			for (i = 0; i < that.arr2.length; i++) {
+				sap.ui.getCore().byId("container-mat_consumption---Home--idTable3").getModel().getData().items[farry.indexOf(that.arr2[i])].On_Hand_Qty =
+					0;
+			}
+			sap.ui.getCore().byId("container-mat_consumption---Home--idTable3").getModel().refresh(true);
+			// ----------------------------------  //added by Sumanta
 		},
 		onSearch: function () {
 
@@ -880,7 +906,7 @@ sap.ui.define([
 				.finally(function () {
 					oSheet.destroy();
 				});
-		},   // added by sumanta
+		}, // added by sumanta
 		createColumnConfig: function () {
 			return [{
 				label: "Material",
@@ -953,11 +979,11 @@ sap.ui.define([
 				label: "Creation Date",
 				property: "CreationDate"
 			}];
-		},  // added by sumanta
-			onLiveChange: function (oEvent) {
-			var oPlant = oEvent.getSource().getValue();
-			this.getView().byId("idFieldPlant").setValue(oPlant.toUpperCase());
-		}  // added by sumanta
+		}, // added by sumanta
+		onLiveChange: function (oEvent) {
+				var oPlant = oEvent.getSource().getValue();
+				this.getView().byId("idFieldPlant").setValue(oPlant.toUpperCase());
+			} // added by sumanta
 
 	});
 });
